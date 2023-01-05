@@ -4,11 +4,12 @@ import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
 import moviesRouter from "./routes/movies.route.js";
 import userRouter from "./routes/user.route.js";
-import cors from"cors";
+import cors from "cors";
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
-app.use(cors());
+
 // const MONGO_URL = "mongodb://127.0.0.1";
 const MONGO_URL = process.env.MONGO_URL;
 
@@ -21,7 +22,7 @@ console.log("mongodb is connected");
 // it is a new method every post method using js object
 // app.use --> intercept --> apply express.json()
 app.use(express.json());
-
+app.use(cors());
 //localhost:4000 home
 app.get("/", function (request, response) {
   response.send("🙋‍♂️, 🌏 🎊✨🤩 heelo world");
@@ -44,9 +45,5 @@ app.use("/movies", moviesRouter);
 app.use("/user", userRouter);
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
-
-
-
-
 
 export { client };
