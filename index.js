@@ -1,10 +1,11 @@
 // const express = require("express"); type:common.js -> old method
 import express from "express"; //type:module; -> latest method
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import * as dotenv from "dotenv";
 import moviesRouter from "./routes/movies.route.js";
 import userRouter from "./routes/user.route.js";
 import cors from "cors";
+import { auth } from "./middleware/auth.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,14 @@ const MONGO_URL = process.env.MONGO_URL;
 const client = new MongoClient(MONGO_URL);
 await client.connect();
 console.log("mongodb is connected");
+
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
+
+
 
 //! XML JSON Text
 //! middleware = express.json() it convert json to JS object

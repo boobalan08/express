@@ -16,7 +16,7 @@ router.post("/signup", async function (request, response) {
   console.log(userFromDB);
   if (userFromDB) {
     response.status(400).send({ message: "username already exists" });
-  } else if (password.length < 8) {
+  } else if (password.length <= 8) {
     response
       .status(400)
       .send({ message: "password must be alteast 8 characters" });
@@ -25,6 +25,7 @@ router.post("/signup", async function (request, response) {
     const result = await createUser({
       username: username,
       password: hashedPassword,
+      roleId: "1",
     });
     response.send(result);
   }
@@ -45,7 +46,11 @@ router.post("/login", async function (request, response) {
     console.log(isPasswordMatch);
     if (isPasswordMatch) {
       const token = jwt.sign({ id: userFromDB._id }, process.env.SECRET_KEY);
-      response.send({ message: "Successful Login", token: token });
+      response.send({
+        message: "Successful Login",
+        token: token,
+        roleId: userFromDB.roleId,
+      });
     } else {
       response.status(401).send({ message: "Invalid Credential" });
     }
