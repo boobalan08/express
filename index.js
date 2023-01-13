@@ -18,20 +18,18 @@ const client = new MongoClient(MONGO_URL);
 await client.connect();
 console.log("mongodb is connected");
 
-const corsOptions ={
-  origin:'*', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200,
-}
-
-
+const corsOptions = {
+  origin: "*",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 
 //! XML JSON Text
 //! middleware = express.json() it convert json to JS object
 // it is a new method every post method using js object
 // app.use --> intercept --> apply express.json()
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 //localhost:4000 home
 app.get("/", function (request, response) {
   response.send("🙋‍♂️, 🌏 🎊✨🤩 heelo world");
